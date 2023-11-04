@@ -1,25 +1,28 @@
 package com.netology.layerdao.repo;
 
-import lombok.AllArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
-import java.util.stream.Collectors;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.stream.Collectors;
 @Repository
 @Transactional
-@AllArgsConstructor
 public class LayerRepository {
+    private final String script;
     private final String PATH = "select.sql";
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    public LayerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.script = read(PATH);
+    }
 
     private static String read(String scriptFileName) {
         try (InputStream is = new ClassPathResource(scriptFileName).getInputStream();
@@ -29,11 +32,10 @@ public class LayerRepository {
             throw new RuntimeException(e);
         }
     }
-    public Map<String, Object> getProductName(String customerName)
+    public List<String> getProductName(String customerName)
     {
-        String sql = read(PATH);
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", customerName);
-        return namedParameterJdbcTemplate.queryForMap(sql, params);
+        return namedParameterJdbcTemplate.queryForList(script, params, String.class);
     }
 }
