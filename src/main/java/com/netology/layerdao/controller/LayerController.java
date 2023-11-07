@@ -1,6 +1,6 @@
 package com.netology.layerdao.controller;
 
-import com.netology.layerdao.repo.LayerRepository;
+import com.netology.layerdao.repo.impl.LayerRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class LayerController {
-    private final LayerRepository repository;
+    private final LayerRepositoryImpl repository;
 
     @GetMapping("/products/fetch-product")
     public ResponseEntity<List<String>> getProductName(@RequestParam(value = "name") String customerName)
