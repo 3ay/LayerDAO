@@ -3,12 +3,10 @@ package com.netology.layerdao.dao;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Table(name = "orders", schema = "public")
+@Table(name = "orders")
 @ToString
 public class OrdersDAO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

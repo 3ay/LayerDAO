@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "customers", schema = "public")
+@Table(name = "customers")
 @ToString
 public class CustomersDAO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
